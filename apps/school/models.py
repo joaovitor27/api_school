@@ -10,11 +10,11 @@ from django.utils.translation import gettext_lazy as _
 
 class Student(models.Model):
     name = models.CharField(verbose_name=_('Nome'), max_length=100)
-    rg = models.CharField(verbose_name=_('RG'), max_length=7)
-    cpf = models.CharField(verbose_name=_('CPF'), max_length=11)
+    rg = models.CharField(verbose_name=_('RG'), max_length=7, unique=True)
+    cpf = models.CharField(verbose_name=_('CPF'), max_length=11, unique=True)
     birth_date = models.DateField(verbose_name=_('Data de nascimento'))
-    email = models.EmailField(verbose_name=_('Email'), )
-    phone = models.CharField(verbose_name=_('Telefone'), max_length=13)
+    email = models.EmailField(verbose_name=_('Email'), unique=True)
+    phone = models.CharField(verbose_name=_('Telefone'), max_length=14, unique=True)
 
     class Meta:
         verbose_name = _('Aluno')
@@ -40,7 +40,7 @@ class Course(models.Model):
         ('A', _('Avançado')),
     )
 
-    code = models.CharField(verbose_name=_('Código'), max_length=8)
+    code = models.CharField(verbose_name=_('Código'), max_length=8, unique=True)
     name = models.CharField(verbose_name=_('Nome'), max_length=100)
     description = models.TextField(verbose_name=_('Descrição'))
     level = models.CharField(verbose_name=_('Nível'), max_length=1, choices=LEVEL, blank=False, null=False, default='B')
