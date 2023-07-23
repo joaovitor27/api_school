@@ -10,12 +10,19 @@ class StudentSerializer(serializers.ModelSerializer):
 
     def validate(self, data):
         if not is_valid_cpf(data['cpf']):
-            raise serializers.ValidationError('CPF inválido')
-        if not is_valid_rg(data['rg']):
-            raise serializers.ValidationError('RG inválido')
-        if not is_valid_name(data['name']):
-            raise serializers.ValidationError('Nome não pode conter números')
+            raise serializers.ValidationError(
+                {'cpf': 'CPF inválido. (Ex: 000.000.000-00)'}
+            )
+        if not is_valid_email(data['email']):
+            raise serializers.ValidationError(
+                {'email': 'Email inválido (Ex: joao@gmail.com)'}
+            )
+        if not is_valid_phone(data['phone']):
+            raise serializers.ValidationError(
+                {'phone': 'Telefone inválido (Ex: +5511900000000, +551100000000)'}
+            )
         return data
+
 
 class CourseSerializer(serializers.ModelSerializer):
     class Meta:

@@ -3,10 +3,11 @@ from .models import Student, Course, Registration
 
 
 class StudentAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'rg', 'cpf', 'birth_date', 'email', 'phone', 'registration')
-    list_display_links = ('id', 'name', 'rg', 'cpf', 'email', 'phone', 'registration')
+    list_display = ('id', 'name', 'cpf', 'birth_date', 'email', 'phone', 'registration')
+    list_display_links = ('id', 'name', 'cpf', 'email', 'phone', 'registration')
     search_fields = ('name', 'rg', 'cpf', 'email', 'registration')
     list_per_page = 15
+    ordering = ('name',)
 
 
 admin.site.register(Student, StudentAdmin)

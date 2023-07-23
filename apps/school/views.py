@@ -1,6 +1,7 @@
-from rest_framework import viewsets, generics
+from rest_framework import viewsets, generics, filters
 from rest_framework.authentication import BasicAuthentication
 from rest_framework.permissions import IsAuthenticated
+from django_filters.rest_framework import DjangoFilterBackend
 
 from .models import Student, Course, Registration
 from .serializer import (StudentSerializer, CourseSerializer, RegistrationSerializer, ListRegistrationStudentSerializer,
@@ -15,6 +16,10 @@ class StudentViewSet(viewsets.ModelViewSet):
     serializer_class = StudentSerializer
     authentication_classes = [BasicAuthentication]
     permission_classes = [IsAuthenticated]
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter]
+    ordering_fields = ['name', ]
+    search_fields = ['name', 'cpf', 'email']
+    filterset_fields = ['active', ]
 
 
 class CourseViewSet(viewsets.ModelViewSet):
