@@ -62,6 +62,16 @@ class Course(models.Model):
         """
         return self.name
 
+    def set_codo(self) -> 'Course':
+        cod_curso = "{}{}-{}".format(self.name[:3].upper(), random.randrange(100, 999), random.randrange(1, 9))
+        self.code = cod_curso
+        return self
+
+    def set_name_if_none(self) -> 'Course':
+        if self.name is None:
+            self.name = self.code
+        return self
+
 
 class Registration(models.Model):
     PERIOD = (

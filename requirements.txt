@@ -5,6 +5,7 @@ charset-normalizer==3.2.0
 colorama==0.4.6
 distlib==0.3.7
 Django==3.2.20
+django-cors-headers==4.2.0
 django-filter==23.2
 djangorestframework==3.14.0
 Faker==19.2.0
@@ -13,6 +14,7 @@ fordev==1.0.5
 idna==3.4
 importlib-metadata==6.8.0
 Markdown==3.4.3
+Pillow==10.0.0
 platformdirs==3.9.1
 Pygments==2.15.1
 python-dateutil==2.8.2

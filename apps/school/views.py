@@ -1,7 +1,6 @@
-from rest_framework import viewsets, generics, filters
-from rest_framework.authentication import BasicAuthentication
-from rest_framework.permissions import IsAuthenticated
+from rest_framework import viewsets, generics, filters, status
 from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.response import Response
 
 from .models import Student, Course, Registration
 from .serializer import (StudentSerializer, CourseSerializer, RegistrationSerializer, ListRegistrationStudentSerializer,
@@ -14,12 +13,11 @@ class StudentViewSet(viewsets.ModelViewSet):
     """
     queryset = Student.objects.all()
     serializer_class = StudentSerializer
-    authentication_classes = [BasicAuthentication]
-    permission_classes = [IsAuthenticated]
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter]
     ordering_fields = ['name', ]
     search_fields = ['name', 'cpf', 'email']
     filterset_fields = ['active', ]
+    http_method_names = ['get', 'post', 'put', 'patch']
 
 
 class CourseViewSet(viewsets.ModelViewSet):
@@ -28,8 +26,16 @@ class CourseViewSet(viewsets.ModelViewSet):
     """
     queryset = Course.objects.all()
     serializer_class = CourseSerializer
-    authentication_classes = [BasicAuthentication]
-    permission_classes = [IsAuthenticated]
+    http_method_names = ['get', 'post', 'put', 'patch']
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.serializer_class(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            id_course = str(serializer.data['id'])
+            response = Response(serializer.data, status=status.HTTP_201_CREATED)
+            response['Location'] = request.build_absolute_uri() + id_course
+            return response
 
 
 class RegistrationViewSet(viewsets.ModelViewSet):
@@ -38,8 +44,7 @@ class RegistrationViewSet(viewsets.ModelViewSet):
     """
     queryset = Registration.objects.all()
     serializer_class = RegistrationSerializer
-    authentication_classes = [BasicAuthentication]
-    permission_classes = [IsAuthenticated]
+    http_method_names = ['get', 'post', 'put', 'patch']
 
 
 class ListRegistrationStudent(generics.ListAPIView):
@@ -47,8 +52,7 @@ class ListRegistrationStudent(generics.ListAPIView):
     API endpoint that allows groups to be viewed or edited.
     """
     serializer_class = ListRegistrationStudentSerializer
-    authentication_classes = [BasicAuthentication]
-    permission_classes = [IsAuthenticated]
+    http_method_names = ['get']
 
     def get_queryset(self):
         """
@@ -64,8 +68,7 @@ class ListRegistrationStudentCourse(generics.ListAPIView):
     API endpoint that allows groups to be viewed or edited.
     """
     serializer_class = ListRegistrationCourseStudentSerializer
-    authentication_classes = [BasicAuthentication]
-    permission_classes = [IsAuthenticated]
+    http_method_names = ['get']
 
     def get_queryset(self):
         """

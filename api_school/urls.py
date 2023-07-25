@@ -1,17 +1,14 @@
+from django.conf import settings
+from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
-from school.views import (StudentViewSet, CourseViewSet, RegistrationViewSet, ListRegistrationStudent,
-                          ListRegistrationStudentCourse)
 from rest_framework import routers
 
 router = routers.DefaultRouter()
-router.register('student', StudentViewSet, basename='student')
-router.register('course', CourseViewSet, basename='course')
-router.register('registration', RegistrationViewSet, basename='registration')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include(router.urls)),
-    path('student/<int:pk>/registration/', ListRegistrationStudent.as_view()),
-    path('course/<int:pk>/registration/', ListRegistrationStudentCourse.as_view()),
+    path('api/v1/', include('school.urls', namespace='v1')),
 ]
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
