@@ -27,7 +27,24 @@ class StudentSerializer(serializers.ModelSerializer):
 class CourseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Course
-        fields = '__all__'
+        fields = ['id', 'name', 'description', 'level', 'price']
+
+    def create(self, validated_data):
+        course = Course.objects.create(**validated_data)
+        course = course.set_code()
+        course.save()
+        return course
+
+    def update(self, instance, validated_data):
+        instance.name = validated_data.get('name', instance.name)
+        instance.description = validated_data.get(
+            'description', instance.description
+        )
+        instance.level = validated_data.get('level', instance.level)
+        instance.price = validated_data.get('price', instance.price)
+        instance = instance.set_code()
+        instance.save()
+        return instance
 
 
 class RegistrationSerializer(serializers.ModelSerializer):

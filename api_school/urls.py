@@ -7,7 +7,8 @@ from rest_framework import routers
 router = routers.DefaultRouter()
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('admin/', include('admin_honeypot.urls', namespace='admin_honeypot')),
+    path('gerency-adm/', admin.site.urls),
     path('api/v1/', include('school.urls', namespace='v1')),
 ]
 

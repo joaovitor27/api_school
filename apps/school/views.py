@@ -1,3 +1,5 @@
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
 from rest_framework import viewsets, generics, filters, status
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.response import Response
@@ -45,6 +47,10 @@ class RegistrationViewSet(viewsets.ModelViewSet):
     queryset = Registration.objects.all()
     serializer_class = RegistrationSerializer
     http_method_names = ['get', 'post', 'put', 'patch']
+
+    @method_decorator(cache_page(20))
+    def dispatch(self, request, *args, **kwargs):
+        return super(RegistrationViewSet, self).dispatch(request, *args, **kwargs)
 
 
 class ListRegistrationStudent(generics.ListAPIView):

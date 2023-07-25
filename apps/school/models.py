@@ -15,6 +15,7 @@ class Student(models.Model):
     email = models.EmailField(verbose_name=_('Email'), unique=True)
     phone = models.CharField(verbose_name=_('Telefone'), max_length=14, unique=True)
     active = models.BooleanField(verbose_name=_('Ativo'), default=True)
+    photo = models.ImageField(verbose_name=_('Foto'), upload_to='students/%Y/%m/%d', blank=True, null=True)
 
     class Meta:
         verbose_name = _('Aluno')
@@ -62,7 +63,7 @@ class Course(models.Model):
         """
         return self.name
 
-    def set_codo(self) -> 'Course':
+    def set_code(self) -> 'Course':
         cod_curso = "{}{}-{}".format(self.name[:3].upper(), random.randrange(100, 999), random.randrange(1, 9))
         self.code = cod_curso
         return self
