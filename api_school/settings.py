@@ -50,6 +50,7 @@ THIRD_PARTY_APPS = [
     # 'django_redis',
     # 'rest_framework_xml',
     'admin_honeypot',
+    'drf_yasg',
 ]
 
 PROJECT_APPS = [
@@ -156,13 +157,13 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 20,
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
     'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.NamespaceVersioning',
-    # 'DEFAULT_AUTHENTICATION_CLASSES': [
-    #     'rest_framework.authentication.BasicAuthentication',
-    # ],
-    # 'DEFAULT_PERMISSION_CLASSES': [
-    #     # 'rest_framework.permissions.IsAuthenticated',
-    #     'rest_framework.permissions.DjangoModelPermissions',
-    # ],
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.BasicAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+        'rest_framework.permissions.DjangoModelPermissions',
+    ],
     'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
     'DEFAULT_THROTTLE_CLASSES': [
         'rest_framework.throttling.AnonRateThrottle',
@@ -202,3 +203,6 @@ SESSION_CACHE_ALIAS = "default"
 LOCALE_PATHS = (
     BASE_DIR / 'locale',
 )
+
+PROJECT_NAME = 'API School'
+EMAIL_CONTACT = 'joaovitor.monteiro.188@gmail.com'

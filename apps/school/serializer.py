@@ -30,9 +30,7 @@ class CourseSerializer(serializers.ModelSerializer):
         fields = ['id', 'name', 'description', 'level', 'price']
 
     def create(self, validated_data):
-        course = Course.objects.create(**validated_data)
-        course = course.set_code()
-        course.save()
+        course = Course.create(**validated_data)
         return course
 
     def update(self, instance, validated_data):

@@ -63,6 +63,14 @@ class Course(models.Model):
         """
         return self.name
 
+    @staticmethod
+    def create(**validated_data):
+        course = Course.objects.create(**validated_data)
+        course = course.set_code()
+        course = course.set_name_if_none()
+        course.save()
+        return course
+
     def set_code(self) -> 'Course':
         cod_curso = "{}{}-{}".format(self.name[:3].upper(), random.randrange(100, 999), random.randrange(1, 9))
         self.code = cod_curso
